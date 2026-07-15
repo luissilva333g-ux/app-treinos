@@ -37,11 +37,12 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-body {
+html, body {
   font-family: var(--font-apple);
   background-color: var(--bg-oled);
   color: var(--text-primary);
   min-height: 100vh;
+  width: 100%;
   overflow-x: hidden;
   line-height: 1.5;
   background-image: 
@@ -65,21 +66,23 @@ body {
 
 /* Mobile First Container */
 .iphone-viewport {
-  max-width: 440px;
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   position: relative;
-  padding-bottom: 110px; /* Space for bottom nav & floating banner */
-  background: rgba(4, 5, 8, 0.95);
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+  padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  background: rgba(4, 5, 8, 0.98);
 }
 
 @media (min-width: 600px) {
   .iphone-viewport {
+    max-width: 440px;
     border-left: 1px solid var(--border-glass);
     border-right: 1px solid var(--border-glass);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
   }
 }
 
@@ -225,15 +228,17 @@ body {
 
 /* Numeric table inputs inside active workout */
 .set-number-input {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--radius-sm);
   color: #ffffff;
   font-size: 16px;
   font-weight: 600;
   text-align: center;
-  width: 68px;
-  padding: 8px 4px;
+  width: 100%;
+  max-width: 74px;
+  min-width: 45px;
+  padding: 8px 2px;
   outline: none;
 }
 
@@ -269,16 +274,17 @@ body {
 .apple-bottom-nav {
   position: fixed;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
   width: 100%;
   max-width: 440px;
-  background: rgba(18, 20, 30, 0.82);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
+  margin: 0 auto;
+  background: rgba(15, 17, 24, 0.88);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   z-index: 100;
-  padding: 10px 16px 20px;
+  padding: 8px 12px calc(12px + env(safe-area-inset-bottom, 0px));
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -288,19 +294,20 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   color: var(--text-tertiary);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  padding: 4px 8px;
+  padding: 4px 6px;
   border-radius: var(--radius-sm);
+  flex: 1;
 }
 
 .nav-item.active {
   color: var(--apple-blue);
-  transform: translateY(-2px);
+  font-weight: 700;
 }
 
 .nav-item:active {
@@ -310,29 +317,29 @@ body {
 /* Active Workout Floating Banner */
 .active-workout-banner {
   position: fixed;
-  bottom: 78px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 28px);
-  max-width: 412px;
-  background: linear-gradient(135deg, rgba(32, 156, 64, 0.95) 0%, rgba(18, 90, 40, 0.95) 100%);
+  bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+  left: 0;
+  right: 0;
+  width: calc(100% - 24px);
+  max-width: 416px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, rgba(16, 85, 36, 0.95) 0%, rgba(10, 50, 22, 0.96) 100%);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(48, 209, 88, 0.4);
-  border-radius: var(--radius-pill);
-  padding: 10px 18px;
+  border: 1px solid rgba(48, 209, 88, 0.45);
+  border-radius: var(--radius-lg);
+  padding: 10px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px var(--apple-green-glow);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85), 0 0 24px var(--apple-green-glow);
   z-index: 99;
-  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
-@keyframes slideUp {
-  from { transform: translate(-50%, 20px); opacity: 0; }
-  to { transform: translate(-50%, 0); opacity: 1; }
+.active-workout-banner:active {
+  transform: scale(0.98);
 }
 
 /* Animations & Transitions */
@@ -350,7 +357,7 @@ body {
   background: linear-gradient(90deg, #ff9500 0%, #ff3b30 100%);
   color: #000000;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   padding: 6px 14px;
   display: flex;
   align-items: center;
@@ -367,14 +374,14 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   z-index: 200;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 16px;
   animation: fadeIn 0.2s ease;
 }
 
@@ -386,9 +393,9 @@ body {
   max-width: 400px;
   max-height: 88vh;
   overflow-y: auto;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
-  padding: 24px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
 }

@@ -10,15 +10,18 @@ export const Header: React.FC = () => {
   const currentTime = new Date().toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
 
   return (
-    <header className="sticky top-0 z-50">
-      {/* Barra de Estado Apple iPhone 15 Pro */}
-      <div className="bg-[#000000] px-6 pt-3 pb-2 flex items-center justify-between text-xs font-semibold select-none border-b border-[rgba(255,255,255,0.06)]">
+    <header className="sticky top-0 z-50 select-none">
+      {/* Barra de Estado Apple iPhone 15 Pro com Proteção de Notch / Safe Area */}
+      <div 
+        className="bg-[#000000]/95 backdrop-blur-md px-4 sm:px-6 pb-2.5 flex items-center justify-between text-xs font-semibold border-b border-[rgba(255,255,255,0.06)]"
+        style={{ paddingTop: 'calc(10px + env(safe-area-inset-top, 0px))' }}
+      >
         <div className="flex items-center gap-2">
-          <span>{currentTime}</span>
+          <span className="font-mono text-[11px] font-bold text-zinc-300">{currentTime}</span>
         </div>
         
         {/* Dynamic Island decorativo / indicador de autosave */}
-        <div className="flex items-center gap-2 bg-[rgba(255,255,255,0.08)] px-3 py-1 rounded-full border border-[rgba(255,255,255,0.1)]">
+        <div className="flex items-center gap-2 bg-[rgba(255,255,255,0.08)] px-3 py-1 rounded-full border border-[rgba(255,255,255,0.1)] shadow-inner">
           {savingStatus === 'saving' && (
             <span className="text-[10px] text-amber-400 flex items-center gap-1.5 animate-pulse">
               <CloudUpload size={11} /> A guardar...
@@ -30,7 +33,7 @@ export const Header: React.FC = () => {
             </span>
           )}
           {savingStatus === 'idle' && (
-            <span className="text-[10px] text-zinc-400 font-normal">
+            <span className="text-[10px] text-zinc-300 font-bold tracking-tight">
               App de Treinos 2026
             </span>
           )}
@@ -50,15 +53,15 @@ export const Header: React.FC = () => {
       {/* Banner Administrativo quando Luís está a inspecionar outra conta (Ponto 40) */}
       {currentUser?.role === 'admin' && adminInspectedProfile && (
         <div className="admin-inspect-banner shadow-lg animate-fade-in">
-          <div className="flex items-center gap-2">
-            <ShieldAlert size={16} />
-            <span>A visualizar: <strong>{adminInspectedProfile.name}</strong></span>
+          <div className="flex items-center gap-2 min-w-0">
+            <ShieldAlert size={16} className="shrink-0" />
+            <span className="truncate">A visualizar: <strong>{adminInspectedProfile.name}</strong></span>
           </div>
           <button
             onClick={() => setInspectedUser(null)}
-            className="flex items-center gap-1 bg-black text-white px-3 py-1 rounded-full text-xs font-bold active:scale-95 transition-transform"
+            className="flex items-center gap-1 bg-black text-white px-3 py-1 rounded-full text-xs font-bold active:scale-95 transition-transform shrink-0 ml-2"
           >
-            <ArrowLeft size={12} /> Voltar à minha conta
+            <ArrowLeft size={12} /> Sair
           </button>
         </div>
       )}
